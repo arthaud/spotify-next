@@ -12,6 +12,7 @@ class Vote(models.Model):
     ip = models.GenericIPAddressField(primary_key=True)
     reverse = models.CharField(max_length=200, blank=True, null=True)
     point = models.PositiveSmallIntegerField(default=1) # +1 means "want to skip the current song"
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         p = str(self.point)

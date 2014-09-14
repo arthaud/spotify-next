@@ -2,8 +2,23 @@
 
 {% block content %}
 <div class="col-md-12">
-  <div class="page-header">
-    <h1>Welcome on Spotify-Next !</h1>
+  <div style="text-align: center">
+    <h1>{{ request.current_music }}</h1>
+
+    <div class="row">
+      <div class="col-md-1 col-md-offset-5">
+        <form action="{% url 'vote_next' %}" method="post">
+          {% csrf_token %}
+          <input type="submit" class="btn btn-primary btn-lg" value="Next" />
+        </form>
+      </div>
+      <div class="col-md-1">
+        <form action="{% url 'vote_keep' %}" method="post">
+          {% csrf_token %}
+          <input type="submit" class="btn btn-primary btn-lg" value="Keep" />
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}
