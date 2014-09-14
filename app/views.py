@@ -17,12 +17,13 @@ def index(request):
 def vote_next(request):
     ip = request.META.get('REMOTE_ADDR')
 
-    if Vote.objects.filter(ip=ip).count() > 0:
-        messages.add_message(request, messages.ERROR, 'You have already voted.')
-        return redirect('app.views.index')
+    try:
+        vote = Vote.objects.get(ip=ip)
+    except Vote.DoesNotExist:
+        reverse = socket.gethostbyaddr(ip)[0]
+        vote = Vote(ip=ip, reverse=reverse)
 
-    reverse = socket.gethostbyaddr(ip)[0]
-    vote = Vote(ip=ip, reverse=reverse, point=1)
+    vote.point = 1
     vote.save()
 
     # test
@@ -41,12 +42,14 @@ def vote_next(request):
 def vote_keep(request):
     ip = request.META.get('REMOTE_ADDR')
 
-    if Vote.objects.filter(ip=ip).count() > 0:
-        messages.add_message(request, messages.ERROR, 'You have already voted.')
-        return redirect('app.views.index')
+    try:
+        vote = Vote.objects.get(ip=ip)
+    except Vote.DoesNotExist:
+        reverse = socket.gethostbyaddr(ip)[0]
+        vote = Vote(ip=ip, reverse=reverse)
 
-    reverse = socket.gethostbyaddr(ip)[0]
-    vote = Vote(ip=ip, reverse=reverse, point=-1)
+    vote.point = -1
     vote.save()
+
     messages.add_message(request, messages.SUCCESS, 'You have successfully voted.')
     return redirect('app.views.index')
