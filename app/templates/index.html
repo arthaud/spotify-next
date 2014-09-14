@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block meta %}{{ block.super }}
+<meta http-equiv="refresh" content="5">
+{% endblock %}
+
 {% block content %}
 <div class="col-md-12">
   <div style="text-align: center">
@@ -19,6 +23,17 @@
         </form>
       </div>
     </div>
+
+    <br/>
+    {% for vote in votes %}
+      <p class="text-{% if vote.point >= 0 %}danger{% else %}success{% endif %}">
+      {% if vote.reverse %}{{ vote.reverse }}{% else %}{{ vote.ip }}{% endif %}
+      :
+      {% if vote.point >= 0 %}next{% else %}keep{% endif %}
+      </p>
+    {% empty %}
+      No vote.
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
