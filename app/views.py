@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
+from django.conf import settings
 
 from app.models import Vote
+from lib.spotify import next as spotify_next
 import socket
 
 
@@ -22,7 +24,16 @@ def vote_next(request):
     reverse = socket.gethostbyaddr(ip)[0]
     vote = Vote(ip=ip, reverse=reverse, point=1)
     vote.save()
-    messages.add_message(request, messages.SUCCESS, 'You have successfully voted.')
+
+    # test
+    votes = Vote.objects.all()
+    points = sum(vote.point for vote in votes)
+
+    if settings.MODE == 'static' and points >= settings.STATIC_THRESHOLD:
+        spotify_next()
+    else:
+        messages.add_message(request, messages.SUCCESS, 'You have successfully voted.')
+
     return redirect('app.views.index')
 
 

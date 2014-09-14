@@ -114,3 +114,11 @@ BOOTSTRAP3 = {
     # The complete URL to the Bootstrap JavaScript file (None means derive it from base_url)
     'javascript_url': None,
 }
+
+# Spotify-next
+
+# choose between 'static' or #TODO
+MODE = 'static'
+
+# in 'static' mode, if the number of votes 'next' is more or equal to STATIC_THRESHOLD, then the music is skipped
+STATIC_THRESHOLD = 2
