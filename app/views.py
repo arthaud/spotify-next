@@ -3,14 +3,20 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
 from django.conf import settings
 
-from app.models import Vote
+from app.models import Vote, Client
 from lib.spotify import next as spotify_next
 import socket
 
 
 def index(request):
     votes = Vote.objects.all().order_by('-date')
-    return render(request, 'index.html', {'votes': votes})
+    clients = Client.objects.all().order_by('name')
+    c = {
+        'votes': votes,
+        'clients': clients,
+        'mode': settings.MODE,
+    }
+    return render(request, 'index.html', c)
 
 
 @csrf_protect
@@ -32,6 +38,12 @@ def vote_next(request):
 
     if settings.MODE == 'static' and points >= settings.STATIC_THRESHOLD:
         spotify_next()
+    elif settings.MODE == 'dynamic':
+        clients = Client.objects.filter(up=True).count()
+        if points >= clients // 2:
+            spotify_next()
+        else:
+            messages.add_message(request, messages.SUCCESS, 'You have successfully voted.')
     else:
         messages.add_message(request, messages.SUCCESS, 'You have successfully voted.')
 

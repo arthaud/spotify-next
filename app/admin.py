@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import Music, Vote
+from app.models import Music, Vote, Client
 
 
 class VoteAdmin(admin.ModelAdmin):
@@ -8,3 +8,4 @@ class VoteAdmin(admin.ModelAdmin):
 
 admin.site.register(Music)
 admin.site.register(Vote, VoteAdmin)
+admin.site.register(Client)

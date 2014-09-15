@@ -34,6 +34,18 @@
     {% empty %}
       No vote.
     {% endfor %}
+
+    {% if mode = 'dynamic' %}
+      <br/>
+      <h3>Clients</h3>
+      <ul>
+      {% for client in clients %}
+        {% if client.up %}
+          <li>{{ client.name }}</li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+    {% endif %}
   </div>
 </div>
 {% endblock %}

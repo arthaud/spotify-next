@@ -20,3 +20,14 @@ class Vote(models.Model):
             p = '+' + p
 
         return '%s : %s' % (self.ip, p)
+
+
+class Client(models.Model):
+    name = models.CharField(max_length=200, primary_key=True)
+    up = models.BooleanField(default=False)
+
+    def __str__(self):
+        if self.up:
+            return '%s : up' % self.name
+        else:
+            return '%s : down' % self.name

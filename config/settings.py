@@ -117,8 +117,12 @@ BOOTSTRAP3 = {
 
 # Spotify-next
 
-# choose between 'static' or #TODO
-MODE = 'static'
+# choose between 'static' or 'dynamic'
+MODE = 'dynamic'
 
 # in 'static' mode, if the number of votes 'next' is more or equal to STATIC_THRESHOLD, then the music is skipped
 STATIC_THRESHOLD = 2
+
+DYNAMIC_CLIENTS = ()
+
+DYNAMIC_REFRESH = 30
