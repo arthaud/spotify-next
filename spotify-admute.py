@@ -3,11 +3,20 @@ import subprocess
 import time
 
 BLACKLIST = (
-    'Spotify - Spotify – Spotify',
-    'Spotify - Spotify  – Spotify',
-    'Spotify - J&B – J&B',
-    'Spotify - Universal Music – Childish Gambino',
-    'Spotify - Warner Music – Led Zeppelin',
+    'Universal Music – Childish Gambino',
+    'Warner Music – Led Zeppelin',
+    'Men expert  – L\'oréal ',
+    'The Avener – Fade Out Lines',
+    'Denon  – House of Heos',
+    'Bose – Electronic In India',
+    'Universal Music – Digster Dancefloor',
+    'CLIQUER POUR DÉCOUVRIR – Sennheiser MOMENTUM',
+    '20th Century Fox – Gone Girl',
+    'Sony Music – George Ezra',
+    'wanted on voyage – George Ezra',
+    'Kiesza aux platines de la playlist Dancefloor de Digster !  – DANCEFLOOR by KIESZA',
+    'Ile-de-France – Conseil Régional des Jeunes',
+    'Bose – Bloc Party',
 )
 
 
@@ -34,15 +43,20 @@ def run(verbose=False):
 
     while True:
         current = window_name()
+        if current.startswith('Spotify - '):
+            current = current[10:]
 
         if not current:
             print('error: spotify window not found.')
+            return
 
         if verbose:
             if current != old:
                 print('new music: %s' % current)
 
-        if current in BLACKLIST:
+        if current in BLACKLIST \
+                or '–' not in current \
+                or current.split('–')[0].strip() == current.split('–')[1].strip():
             if not muted:
                 if verbose:
                     print('advertisement muted')
