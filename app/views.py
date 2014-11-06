@@ -26,7 +26,11 @@ def vote_next(request):
     try:
         vote = Vote.objects.get(ip=ip)
     except Vote.DoesNotExist:
-        reverse = socket.gethostbyaddr(ip)[0]
+        try:
+            reverse = socket.gethostbyaddr(ip)[0]
+        except socket.herror:
+            reverse = u'unknown <%s>' % ip
+
         vote = Vote(ip=ip, reverse=reverse)
 
     vote.point = 1
@@ -57,7 +61,11 @@ def vote_keep(request):
     try:
         vote = Vote.objects.get(ip=ip)
     except Vote.DoesNotExist:
-        reverse = socket.gethostbyaddr(ip)[0]
+        try:
+            reverse = socket.gethostbyaddr(ip)[0]
+        except socket.herror:
+            reverse = u'unknown <%s>' % ip
+
         vote = Vote(ip=ip, reverse=reverse)
 
     vote.point = -1
